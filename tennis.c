@@ -151,9 +151,9 @@ void traiterSignal (int signalRecu, siginfo_t* info, void* pasUtileIci)
       
       free (zone2);
 
-      kill ( info->si_pid , SIGUSR2 );
+      kill ( info->si_pid , SIGUSR1 );
 
-      printf ("Le joueur1 envoie SIGUSR2 vers le joueur2 %d\n", info->si_pid);
+      printf ("Le joueur1 envoie SIGUSR1 vers le joueur2 %d\n", info->si_pid);
     }
     else
     {
@@ -214,9 +214,9 @@ int main()
       sigaction (SIGUSR1, &prepaSignal, NULL);
       sigaction (SIGTERM, &prepaSignal, NULL);
 
-      while (1)
+      while (i < 10)
       {
-        pause ();
+        pause();
       }
     default :
       printf ("Joueur1 : PID=%d\n", getpid());
@@ -226,6 +226,11 @@ int main()
       sleep (1);
       int envoi = zoneEnvoi();
       unsigned long taille = sizeof (envoi);
+
+      // if (i === 0)
+      // {
+
+      // }
       write ( tube[1], &taille, sizeof (unsigned long));
       if (envoi == -1)
       {
@@ -240,12 +245,18 @@ int main()
       }
       kill ( pid , SIGUSR1 );
 
-
+      // int valeurDeRetour = 0;
+      // wait (&valeurDeRetour);
+      while(i < 10)
+      {
+        pause();
+      }
     }
 
-      int valeurDeRetour = 0;
-      wait (&valeurDeRetour);
   }
+  kill ( pid , SIGTERM );
+
+  sleep(1);
   printf("Match fini, bye bye!\n");
   return 0;
 }
