@@ -6,7 +6,7 @@
 #include <string.h>
 #include <sys/wait.h>
 #include <sys/types.h>
-
+#include <bits/types/siginfo_t.h>
 int tube [2];
 int i = 0;
 
@@ -118,7 +118,7 @@ void traiterSignal (int signalRecu, siginfo_t* info, void* pasUtileIci)
     if ( zone2 )
     {
       printf("la zone de reception du joueur1 est : %d\n", reception2);
-      printf ("Le joueur1 alloue %lu octets\n", taille);
+      printf ("Le joueur1 alloue %lu octets\n", taille2);
 
       // On lit le message proprement dit
 
@@ -224,29 +224,26 @@ int main()
       sigaction (SIGUSR2, &prepaSignal, NULL);
 
       sleep (1);
-      int envoi = zoneEnvoi();
-      unsigned long taille = sizeof (envoi);
+      int envoi0 = zoneEnvoi();
+      unsigned long taille = sizeof (envoi0);
 
-      // if (i === 0)
+      // if (i == 0)
       // {
-
       // }
-      write ( tube[1], &taille, sizeof (unsigned long));
-      if (envoi == -1)
-      {
-        printf("Joueur1 rate son tir\n");
-        i++;
-        write ( tube[1], &envoi, taille);
-      }
-      else
-      {
-        printf("Joueur1 envoie la balle en %d\n", envoi);
-        write ( tube[1], &envoi, taille);
-      }
-      kill ( pid , SIGUSR1 );
+        write ( tube[1], &taille, sizeof (unsigned long));
+        if (envoi0 == -1)
+        {
+          printf("Joueur1 rate son tir\n");
+          i++;
+          write ( tube[1], &envoi0, taille);
+        }
+        else
+        {
+          printf("Joueur1 envoie la balle en %d\n", envoi0);
+          write ( tube[1], &envoi0, taille);
+        }
+        kill ( pid , SIGUSR1 );
 
-      // int valeurDeRetour = 0;
-      // wait (&valeurDeRetour);
       while(i < 10)
       {
         pause();
