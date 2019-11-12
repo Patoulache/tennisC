@@ -77,8 +77,8 @@ void traiterSignal (int signalRecu, siginfo_t* info, void* pasUtileIci)
       }
       else
       {
-        unsigned long tailleEnvoi = sizeof (envoi);
-        printf("la zone d'envoie du joueur2 est : %d\n", envoi);
+        unsigned long tailleEnvoi = sizeof (aToi);
+        printf("le joueur 2 perds l'échange\n");
         write ( tube[1], &tailleEnvoi, sizeof (unsigned long));
         write ( tube[1], &aToi, tailleEnvoi);
       }
@@ -143,8 +143,8 @@ void traiterSignal (int signalRecu, siginfo_t* info, void* pasUtileIci)
       else
       {
         i++;
-        unsigned long tailleEnvoi2 = sizeof (envoi2);
-        printf("la zone d'envoie du joueur1 est : %d\n", envoi2);
+        unsigned long tailleEnvoi2 = sizeof (aToi2);
+        printf("le joueur 1 perds l'échange\n");
         write ( tube[1], &tailleEnvoi2, sizeof (unsigned long));
         write ( tube[1], &aToi2, tailleEnvoi2);
       }
